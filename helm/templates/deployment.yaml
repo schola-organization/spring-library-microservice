@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ include "deployment_fullname" }}
+spec:
+    selector:
+        matchLabels:
+            app: {{ include "deployment_fullname" }}
+    template:
+        metadata:
+            labels:
+                app: {{ include "deployment_fullname" }}
+        spec:
+            containers:
+                - name: {{ include "container_name" }}
+                  image: {{ .Values.image }}
+                  ports:
+                    - containerPort: 8080
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
